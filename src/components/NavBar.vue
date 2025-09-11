@@ -21,13 +21,13 @@
           class="text-dark hover:text-primary transition font-medium"
           active-class="text-primary font-bold"
         >
-          Explore
+          <!-- Explore
         </router-link>
         <router-link
           to="/budget"
           class="text-dark hover:text-primary transition font-medium"
           active-class="text-primary font-bold"
-        >
+        > -->
           Budget
         </router-link>
         <router-link
@@ -43,6 +43,13 @@
           active-class="text-primary font-bold"
         >
           Calendar
+        </router-link>
+        <router-link
+          to="/story"
+          class="text-dark hover:text-primary transition font-medium"
+          active-class="text-primary font-bold"
+        >
+          StoryTeller
         </router-link>
       </div>
     </div>
