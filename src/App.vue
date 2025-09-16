@@ -1,14 +1,28 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-light">
+  <div id="app">
     <NavBar />
-    <main class="flex-1">
+
+    <!--
+      Add padding equal to navbar height (4rem = 64px) + safe-area for notches.
+      This ensures page content starts below the fixed navbar on all devices.
+    -->
+    <div
+      class="min-h-screen"
+      :style="{ paddingTop: 'calc(4rem + env(safe-area-inset-top))' }"
+    >
       <router-view />
-    </main>
-    <Footer />
+    </div>
   </div>
 </template>
 
 <script setup>
-import NavBar from './components/NavBar.vue'
-import Footer from './components/Footer.vue'
+import NavBar from "./components/NavBar.vue";
 </script>
+
+<style>
+/* small global sanity rules */
+html, body, #app {
+  height: 100%;
+  margin: 0;
+}
+</style>
