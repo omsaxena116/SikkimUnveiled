@@ -1,81 +1,100 @@
 <template>
-  <div class="p-6 max-w-xl mx-auto">
-    <div class="bg-light rounded-xl shadow-md border border-secondary/40 p-6">
-      <h2 class="text-2xl font-bold mb-4 text-primary text-center">
-        💰 Budget Calculator
-      </h2>
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-primary mb-6 text-center">💰 Trip Budget Calculator</h1>
 
-      <!-- Input -->
-      <div class="flex gap-2">
-        <input
-          v-model.number="budget"
-          type="number"
-          placeholder="Enter budget (₹)"
-          class="flex-1 border border-secondary/50 rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
-        />
-        <button
-          @click="calc"
-          class="px-6 py-2 rounded-lg bg-primary text-accent font-semibold hover:bg-secondary transition text-sm"
-        >
-          Calculate
-        </button>
-      </div>
-
-      <!-- Results -->
-      <div v-if="result" class="mt-6 p-4 bg-accent rounded-lg border border-secondary/50 shadow-inner">
-        <h3 class="font-semibold text-lg text-primary mb-2">Suggested Monasteries</h3>
-        <ul class="space-y-2">
-          <li
-            v-for="item in result.suggested"
-            :key="item"
-            class="flex items-center gap-2 text-sm text-dark"
-          >
-            ✅ <span>{{ item }}</span>
-          </li>
-        </ul>
-        <div class="mt-4 text-center">
-          <span class="inline-block bg-primary text-accent text-sm font-bold px-4 py-2 rounded-lg shadow">
-            Remaining Budget: ₹{{ result.remaining }}
-          </span>
+    <!-- Card -->
+    <div class="bg-white rounded-xl shadow-lg p-6 max-w-2xl mx-auto">
+      <!-- Form -->
+      <form @submit.prevent="calculateBudget" class="space-y-4">
+        <!-- Travelers -->
+        <div>
+          <label class="block font-semibold text-dark mb-1">Number of Travelers</label>
+          <input
+            v-model.number="travelers"
+            type="number"
+            min="1"
+            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
+          />
         </div>
-      </div>
 
-      <!-- Empty State -->
-      <div v-else class="mt-6 text-center text-gray-500 text-sm">
-        Enter your budget to see how many monasteries you can explore ✨
+        <!-- Days -->
+        <div>
+          <label class="block font-semibold text-dark mb-1">Number of Days</label>
+          <input
+            v-model.number="days"
+            type="number"
+            min="1"
+            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
+          />
+        </div>
+
+        <!-- Daily Cost -->
+        <div>
+          <label class="block font-semibold text-dark mb-1">Estimated Daily Cost per Person (₹)</label>
+          <input
+            v-model.number="dailyCost"
+            type="number"
+            min="100"
+            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
+          />
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex flex-col md:flex-row gap-4 mt-6">
+          <button
+            type="submit"
+            class="w-full md:w-auto px-6 py-3 rounded-lg bg-primary text-accent font-semibold shadow-lg hover:bg-secondary transition text-lg"
+          >
+            Calculate
+          </button>
+          <button
+            type="button"
+            @click="resetForm"
+            class="w-full md:w-auto px-6 py-3 rounded-lg bg-light text-dark font-semibold shadow-lg hover:bg-accent transition text-lg"
+          >
+            Clear
+          </button>
+        </div>
+      </form>
+
+      <!-- Result -->
+      <div
+        v-if="totalBudget !== null"
+        class="mt-8 flex items-center gap-4 p-6 bg-gradient-to-r from-secondary to-accent rounded-xl shadow-lg"
+      >
+        <!-- Icon -->
+        <div class="flex-shrink-0 w-14 h-14 flex items-center justify-center bg-primary text-accent rounded-full shadow">
+          💸
+        </div>
+
+        <!-- Text -->
+        <div>
+          <h2 class="text-lg font-semibold text-dark">Estimated Total Budget</h2>
+          <p class="text-3xl font-extrabold text-primary mt-1">
+            ₹ {{ totalBudget.toLocaleString() }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { monasteries } from '../services/mockData'
+import { ref } from "vue";
 
-const budget = ref('')
-const result = ref(null)
+const travelers = ref(1);
+const days = ref(1);
+const dailyCost = ref(1000);
+const totalBudget = ref(null);
 
-function calc() {
-  if (!budget.value || budget.value <= 0) {
-    result.value = null
-    return
-  }
+const calculateBudget = () => {
+  totalBudget.value = travelers.value * days.value * dailyCost.value;
+};
 
-  const prices = [1200, 1000, 800, 600, 500, 400] // mock costs
-  const suggested = []
-  let remaining = Number(budget.value)
-  let i = 0
-
-  while (i < monasteries.length && remaining >= Math.min(...prices)) {
-    const price = prices[i % prices.length]
-    if (remaining - price >= 0) {
-      suggested.push(monasteries[i].name)
-      remaining -= price
-    }
-    i++
-    if (suggested.length >= 5) break
-  }
-
-  result.value = { suggested, remaining }
-}
+const resetForm = () => {
+  travelers.value = 1;
+  days.value = 1;
+  dailyCost.value = 1000;
+  totalBudget.value = null;
+};
 </script>
