@@ -1,9 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
-  ],
+// tailwind.config.js
+export default {
+  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -12,7 +9,7 @@ module.exports = {
         accent: "#FFEBC1",
         dark: "#3D2B1F",
         light: "#F8F4E1",
-      }
+      },
     },
   },
   plugins: [],

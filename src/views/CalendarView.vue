@@ -1,94 +1,27 @@
 <template>
-  <div class="p-6 max-w-5xl mx-auto">
-    <div class="bg-light rounded-xl shadow-md border border-secondary/40 p-6">
-      <h2 class="text-2xl font-bold mb-6 text-primary text-center">
-        📅 Festival Calendar
-      </h2>
+  <div>
+    <h1 class="text-2xl md:text-3xl font-bold text-primary mb-6 text-center">
+      📅 Festival Calendar
+    </h1>
 
-      <!-- Calendar Grid -->
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div
-          v-for="f in festivals"
-          :key="f.id"
-          class="bg-white border border-secondary/40 rounded-xl p-4 shadow hover:shadow-lg transition relative"
-        >
-          <!-- Upcoming marker -->
-          <span
-            v-if="f.upcoming"
-            class="absolute top-2 right-2 bg-primary text-accent text-xs px-2 py-1 rounded-full shadow"
-          >
-            Upcoming
-          </span>
-
-          <h3 class="font-bold text-lg text-dark">{{ f.name }}</h3>
-          <p class="text-sm text-gray-600">📍 {{ f.monastery }}</p>
-          <p class="mt-2 text-sm font-medium text-secondary">🗓 {{ f.date }}</p>
-
-          <!-- Tags -->
-          <div class="mt-3 flex flex-wrap gap-2">
-            <span
-              v-for="tag in f.tags"
-              :key="tag"
-              class="px-2 py-1 text-xs rounded-full bg-accent text-dark border border-secondary/40"
-            >
-              {{ tag }}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Empty state -->
-      <div v-if="!festivals.length" class="text-center mt-6 text-gray-500 text-sm">
-        No festivals found. ✨
-      </div>
+    <div class="bg-accent shadow-lg rounded-xl p-6 max-w-2xl mx-auto">
+      <ul class="space-y-4">
+        <li v-for="festival in festivals" :key="festival.name"
+          class="p-4 bg-light rounded-lg shadow hover:shadow-md">
+          <h3 class="font-semibold text-dark">{{ festival.name }}</h3>
+          <p class="text-sm text-gray-700">{{ festival.date }}</p>
+          <p class="text-sm text-dark mt-1">{{ festival.description }}</p>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
-// Mock festival data
-const festivals = ref([
-  {
-    id: 1,
-    name: "Losar Festival",
-    monastery: "Rumtek Monastery",
-    date: "February 10, 2025",
-    tags: ["New Year", "Dance Festival"],
-    upcoming: true
-  },
-  {
-    id: 2,
-    name: "Pang Lhabsol",
-    monastery: "Ralang Monastery",
-    date: "September 14, 2025",
-    tags: ["Mountain Worship", "Religious"],
-    upcoming: false
-  },
-  {
-    id: 3,
-    name: "Saga Dawa",
-    monastery: "Lachung Monastery",
-    date: "June 12, 2025",
-    tags: ["Buddha's Life", "Religious"],
-    upcoming: false
-  },
-  {
-    id: 4,
-    name: "Cham Dance Festival",
-    monastery: "Enchey Monastery",
-    date: "December 15, 2025",
-    tags: ["Masked Dance", "Cultural"],
-    upcoming: false
-  },
-  {
-    id: 5,
-    name: "Bumchu Festival",
-    monastery: "Tashiding Monastery",
-    date: "March 7, 2025",
-    tags: ["Water Ritual", "Religious"],
-    upcoming: false
-  }
-])
+const festivals = [
+  { name: "Losar (Tibetan New Year)", date: "15 Feb 2025", description: "Celebration with rituals, dances, and feasts." },
+  { name: "Saga Dawa", date: "5 Jun 2025", description: "Festival marking Buddha's birth, enlightenment, and death." },
+  { name: "Pang Lhabsol", date: "20 Sep 2025", description: "Festival dedicated to Mount Khangchendzonga." },
+  { name: "Tihar (Deepawali)", date: "11 Nov 2025", description: "Festival of lights celebrated with devotion and joy." },
+]
 </script>

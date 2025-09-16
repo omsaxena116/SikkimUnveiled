@@ -1,100 +1,63 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-primary mb-6 text-center">💰 Trip Budget Calculator</h1>
+  <div>
+    <h1 class="text-2xl md:text-3xl font-bold text-primary mb-6 text-center">
+      💰 Trip Budget Calculator
+    </h1>
 
-    <!-- Card -->
-    <div class="bg-white rounded-xl shadow-lg p-6 max-w-2xl mx-auto">
-      <!-- Form -->
+    <div class="bg-accent shadow-lg rounded-xl p-6 max-w-md mx-auto">
       <form @submit.prevent="calculateBudget" class="space-y-4">
-        <!-- Travelers -->
         <div>
-          <label class="block font-semibold text-dark mb-1">Number of Travelers</label>
-          <input
-            v-model.number="travelers"
-            type="number"
-            min="1"
-            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
-          />
+          <label class="block text-dark font-medium">Number of Travelers</label>
+          <input v-model.number="travelers" type="number" min="1"
+            class="w-full p-3 rounded-lg border focus:ring-2 focus:ring-primary" />
         </div>
 
-        <!-- Days -->
         <div>
-          <label class="block font-semibold text-dark mb-1">Number of Days</label>
-          <input
-            v-model.number="days"
-            type="number"
-            min="1"
-            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
-          />
+          <label class="block text-dark font-medium">Number of Days</label>
+          <input v-model.number="days" type="number" min="1"
+            class="w-full p-3 rounded-lg border focus:ring-2 focus:ring-primary" />
         </div>
 
-        <!-- Daily Cost -->
         <div>
-          <label class="block font-semibold text-dark mb-1">Estimated Daily Cost per Person (₹)</label>
-          <input
-            v-model.number="dailyCost"
-            type="number"
-            min="100"
-            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
-          />
+          <label class="block text-dark font-medium">Estimated Daily Cost per Person (₹)</label>
+          <input v-model.number="dailyCost" type="number" min="0"
+            class="w-full p-3 rounded-lg border focus:ring-2 focus:ring-primary" />
         </div>
 
-        <!-- Buttons -->
-        <div class="flex flex-col md:flex-row gap-4 mt-6">
-          <button
-            type="submit"
-            class="w-full md:w-auto px-6 py-3 rounded-lg bg-primary text-accent font-semibold shadow-lg hover:bg-secondary transition text-lg"
-          >
+        <div class="flex justify-between">
+          <button type="submit" class="px-6 py-2 rounded-lg bg-primary text-accent font-semibold shadow hover:bg-secondary">
             Calculate
           </button>
-          <button
-            type="button"
-            @click="resetForm"
-            class="w-full md:w-auto px-6 py-3 rounded-lg bg-light text-dark font-semibold shadow-lg hover:bg-accent transition text-lg"
-          >
+          <button type="button" @click="resetForm" class="px-6 py-2 rounded-lg bg-light text-dark font-semibold shadow hover:bg-secondary">
             Clear
           </button>
         </div>
       </form>
 
-      <!-- Result -->
-      <div
-        v-if="totalBudget !== null"
-        class="mt-8 flex items-center gap-4 p-6 bg-gradient-to-r from-secondary to-accent rounded-xl shadow-lg"
-      >
-        <!-- Icon -->
-        <div class="flex-shrink-0 w-14 h-14 flex items-center justify-center bg-primary text-accent rounded-full shadow">
-          💸
-        </div>
-
-        <!-- Text -->
-        <div>
-          <h2 class="text-lg font-semibold text-dark">Estimated Total Budget</h2>
-          <p class="text-3xl font-extrabold text-primary mt-1">
-            ₹ {{ totalBudget.toLocaleString() }}
-          </p>
-        </div>
+      <div v-if="result !== null" class="mt-6 p-4 bg-light rounded-lg shadow text-center">
+        <h2 class="font-bold text-primary">Estimated Trip Cost</h2>
+        <p class="text-lg text-dark mt-2">₹ {{ result }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref } from "vue"
 
-const travelers = ref(1);
-const days = ref(1);
-const dailyCost = ref(1000);
-const totalBudget = ref(null);
+const travelers = ref(1)
+const days = ref(1)
+const dailyCost = ref(1000)
+const result = ref(null)
 
-const calculateBudget = () => {
-  totalBudget.value = travelers.value * days.value * dailyCost.value;
-};
+function calculateBudget() {
+  result.value = travelers.value * days.value * dailyCost.value
+}
 
-const resetForm = () => {
-  travelers.value = 1;
-  days.value = 1;
-  dailyCost.value = 1000;
-  totalBudget.value = null;
-};
+function resetForm() {
+  travelers.value = 1
+  days.value = 1
+  dailyCost.value = 1000
+  result.value = null
+}
 </script>
